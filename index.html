@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ua">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Музичний тренажер</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <h1>Музичний тренажер</h1>
+    <div class="settingsContainer">
+        <div class="settings">
+            <fieldset class="soundsSettings">
+                <legend>Налаштування послідовності</legend>
+                <label for="numberOfSounds">
+                    Кількість співзвуч <input type="number" name="numberOfSounds" id="numberOfSounds"
+                        class="numberOfSounds" min="2" max="100" value="12">
+                </label>
+                <div class="soundsTypes">
+                    Типи співзвуч
+                    <ul class="soundsTypes-list">
+                        <li>
+                            <label for="soundsTypes-intervals">
+                                <input type="checkbox" name="soundsTypes" id="soundsTypes-intervals" value="int" checked
+                                    disabled>
+                                Прості інтервали
+                            </label>
+                        </li>
+                        <li>
+                            <label for="soundsTypes-3s">
+                                <input type="checkbox" name="soundsTypes" id="soundsTypes-3s" value="3s" disabled>
+                                Тризвуки з оберненнями
+                            </label>
+                        </li>
+                        <!-- <li>
+                            <label for="soundsTypes-4s">
+                                <input type="checkbox" name="soundsTypes" id="soundsTypes-4s" value="4s">
+                                Септакорди з оберненнями
+                            </label>
+                        </li> -->
+                    </ul>
+                </div>
+                <label for="startSound-sound">Початкова нота
+                    <select name="startSound-sound" id="startSound-sound" class="startSound-sound">
+                        <option value="random">Випадкова</option>
+                        <optgroup label="Мала октава">
+                            <option value="m-c">C</option>
+                            <option value="m-d">D</option>
+                            <option value="m-e">E</option>
+                            <option value="m-f">F</option>
+                            <option value="m-g">G</option>
+                            <option value="m-a">A</option>
+                            <option value="m-h">H</option>
+                        </optgroup>
+                        <optgroup label="Ⅰ октава">
+                            <option value="1-c">C</option>
+                            <option value="1-d">D</option>
+                            <option value="1-e">E</option>
+                            <option value="1-f">F</option>
+                            <option value="1-g">G</option>
+                            <option value="1-a">A</option>
+                            <option value="1-h">H</option>
+                        </optgroup>
+                        <optgroup label="Ⅱ октава" disabled>
+                            <option value="2-c">C</option>
+                            <option value="2-d">D</option>
+                            <option value="2-e">E</option>
+                            <option value="2-f">F</option>
+                            <option value="2-g">G</option>
+                            <option value="2-a">A</option>
+                            <option value="2-h">H</option>
+                        </optgroup>
+                    </select>
+                    <select name="startSound-special" id="startSound-special" class="startSound-special" disabled>
+                        <option value="c">&natural;</option>
+                        <option value="is">&sharp;</option>
+                        <option value="es">&flat;</option>
+                    </select>
+                </label>
+            </fieldset>
+            <fieldset class="playerSettings">
+                <legend>Налаштування відтворення</legend>
+                <label for="soundOrder">Звучання співзвуч
+                    <select name="soundOrder" id="soundOrder" disabled>
+                        <option value="mel">Мелодичне</option>
+                        <option value="harm">Гармонічне</option>
+                        <option value="mel-harm" selected>Мелодичне і гармонічне</option>
+                        <option value="harm-mel">Гармонічне і мелодичне</option>
+                    </select>
+                </label>
+            </fieldset>
+        </div>
+        <button class="generate">Згенерувати послідовність</button>
+    </div>
+    <div class="responseContainer">
+        <div class="player">
+            <div class="progressbar">
+                <progress max="12"></progress>
+                <span><span class="current">0</span> / <span class="total">12</span></span>
+            </div>
+
+            <div class="controls">
+                <button value="previous" disabled>&#8656;</button>
+                <button value="play" disabled>&#9658;</button>
+                <button value="next" disabled>&#8658;</button>
+            </div>
+        </div>
+        <details class="answers">
+            <summary>
+                Показати відповіді
+            </summary>
+            <ol>
+                <li>Спочатку згенеруйте послідовність співзвуч</li>
+            </ol>
+        </details>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
