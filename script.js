@@ -1,10 +1,8 @@
-let a = [new Audio("Audio/40.mp3"), new Audio("Audio/44.mp3"), new Audio("Audio/47.mp3"), new Audio("Audio/52.mp3")];
-
 document.querySelector(".generate").addEventListener("click", () => {
-    a[0].play();
-    a[1].play();
-    a[2].play();
-    a[3].play();
+    audios1[40].play();
+    audios1[44].play();
+    audios1[47].play();
+    audios1[52].play();
     generate();
 });
 
@@ -13,11 +11,10 @@ document.querySelector(".controls [value='previous']").addEventListener("click",
 });
 
 document.querySelector(".controls [value='play']").addEventListener("click", () => {
+    document.querySelector(".controls [value='play']").setAttribute("disabled", "disabled");
     setTimeout(() => {
         document.querySelector(".controls [value='play']").removeAttribute("disabled");
-    }, 7000);
-    document.querySelector(".controls [value='play']").setAttribute("disabled", "disabled");
-    playSound();
+    }, playSound());
 });
 
 document.querySelector(".controls [value='next']").addEventListener("click", () => {
@@ -36,32 +33,60 @@ document.querySelector(".startSound-sound").addEventListener("change", () => {
 
 
 const sounds = {
-    "int": [{ name: "Ч.1", type: "int", numberOfHalftones: [0] },
-    { name: "М.2", type: "int", numberOfHalftones: [1] },
-    { name: "Б.2", type: "int", numberOfHalftones: [2] },
-    { name: "М.3", type: "int", numberOfHalftones: [3] },
-    { name: "Б.3", type: "int", numberOfHalftones: [4] },
-    { name: "Ч.4", type: "int", numberOfHalftones: [5] },
-    { name: "Ч.5", type: "int", numberOfHalftones: [7] },
-    { name: "М.6", type: "int", numberOfHalftones: [8] },
-    { name: "Б.6", type: "int", numberOfHalftones: [9] },
-    { name: "М.7", type: "int", numberOfHalftones: [10] },
-    { name: "Б.7", type: "int", numberOfHalftones: [11] },
-    { name: "Ч.8", type: "int", numberOfHalftones: [12] },],
-    "3s": [{ name: "", type: "", numberOfHalftones: [] },
-    { name: "", type: "", numberOfHalftones: [] },
-    { name: "", type: "", numberOfHalftones: [] },
-    { name: "", type: "", numberOfHalftones: [] },
-    { name: "", type: "", numberOfHalftones: [] },
-    { name: "", type: "", numberOfHalftones: [] },
-    { name: "", type: "", numberOfHalftones: [] },
-    { name: "", type: "", numberOfHalftones: [] },
-    { name: "", type: "", numberOfHalftones: [] },
-    { name: "", type: "", numberOfHalftones: [] },
-    { name: "", type: "", numberOfHalftones: [] },
-    { name: "", type: "", numberOfHalftones: [] },],
+    "int": [
+        { name: "Ч. 1", type: "int", numberOfHalftones: [0] },
+        { name: "М. 2", type: "int", numberOfHalftones: [1] },
+        { name: "В. 2", type: "int", numberOfHalftones: [2] },
+        { name: "М. 3", type: "int", numberOfHalftones: [3] },
+        { name: "В. 3", type: "int", numberOfHalftones: [4] },
+        { name: "Ч. 4", type: "int", numberOfHalftones: [5] },
+        { name: "Ч. 5", type: "int", numberOfHalftones: [7] },
+        { name: "М. 6", type: "int", numberOfHalftones: [8] },
+        { name: "В. 6", type: "int", numberOfHalftones: [9] },
+        { name: "М. 7", type: "int", numberOfHalftones: [10] },
+        { name: "В. 7", type: "int", numberOfHalftones: [11] },
+        { name: "Ч. 8", type: "int", numberOfHalftones: [12] }
+    ],
+    "specialAnd3tones": [
+        { name: "Зб. 5 (характ. інт.)", type: "specialAnd3tones", numberOfHalftones: [] },
+        { name: "Зм. 4 (характ. інт.)", type: "specialAnd3tones", numberOfHalftones: [] },
+        { name: "Зб. 2 (характ. інт.)", type: "specialAnd3tones", numberOfHalftones: [] },
+        { name: "Зм. 7 (характ. інт.)", type: "specialAnd3tones", numberOfHalftones: [] },
+        { name: "Зб. 4 (тритон)", type: "specialAnd3tones", numberOfHalftones: [6] },
+        { name: "Зм. 5 (тритон)", type: "specialAnd3tones", numberOfHalftones: [6] }
+    ],
+    "3s": [
+        { name: "В⁵₃", type: "3s", numberOfHalftones: [4, 3] },
+        { name: "М⁵₃", type: "3s", numberOfHalftones: [3, 4] },
+        { name: "В⁶₃", type: "3s", numberOfHalftones: [3, 5] },
+        { name: "М⁶₃", type: "3s", numberOfHalftones: [4, 5] },
+        { name: "В⁶₄", type: "3s", numberOfHalftones: [5, 4] },
+        { name: "М⁶₄", type: "3s", numberOfHalftones: [5, 3] },
+        { name: "Зб⁵₃", type: "3s", numberOfHalftones: [4, 4] },
+        { name: "Зм⁵₃", type: "3s", numberOfHalftones: [3, 3] },
+    ], "4s": [
+        { name: "В⁵₃", type: "3s", numberOfHalftones: [4, 3] },
+        { name: "М⁵₃", type: "3s", numberOfHalftones: [3, 4] },
+        { name: "В⁶₃", type: "3s", numberOfHalftones: [3, 5] },
+        { name: "М⁶₃", type: "3s", numberOfHalftones: [4, 5] },
+        { name: "В⁶₄", type: "3s", numberOfHalftones: [5, 4] },
+        { name: "М⁶₄", type: "3s", numberOfHalftones: [5, 3] },
+        { name: "Зб⁵₃", type: "3s", numberOfHalftones: [4, 4] },
+        { name: "Зм⁵₃", type: "3s", numberOfHalftones: [3, 3] },
+    ],
 };
-const keyboard = { octavas: ["m", "1", "2"], notes: { c: 0, d: 2, e: 4, f: 5, g: 7, a: 9, h: 11 }, signs: { c: 0, is: 1, es: -1 } }
+const keyboard = { octavas: ["m", "1", "2"], notes: { c: 0, d: 2, e: 4, f: 5, g: 7, a: 9, h: 11 }, signs: { c: 0, is: 1, es: -1 } };
+
+const audios1 = {};
+for (let i = 27; i <= 68; i++) {
+    audios1[i] = new Audio("Audio/" + i + ".mp3");
+}
+const audios2 = {};
+for (let i = 27; i <= 68; i++) {
+    audios2[i] = new Audio("Audio/" + i + ".mp3");
+}
+
+
 
 let currentList = [];
 let currentSoundNumber = { number: 0 };
@@ -113,6 +138,12 @@ function generate() {
         });
     });
 
+    let isUniqueSound = document.querySelector(".uniqueSound input").checked;
+    if (isUniqueSound) {
+        if (numberOfSounds > currentSounds.length) { numberOfSounds = currentSounds.length }
+    }
+
+
     for (let i = 0; i < numberOfSounds; i++) {
         let r1 = Math.floor(Math.random() * currentSounds.length);
         if (r1 == currentSounds.length) { r1--; }
@@ -125,10 +156,12 @@ function generate() {
             currentLevel = level;
         }
 
-        // console.log(i)
         currentList[i] = { "sound": currentSounds[r1], "level": currentLevel };
-    }
 
+        if (isUniqueSound) {
+            currentSounds.splice(r1, 1);
+        }
+    }
 
     currentSoundNumber.number = 0;
     document.querySelector(".progressbar progress").setAttribute("max", currentList.length);
@@ -143,23 +176,105 @@ function generate() {
         li.textContent = element.sound.name;
         document.querySelector(".answers ol").append(li);
     });
-    console.log(currentList)
+
     return currentList;
 }
 
 function playSound() {
-    let startNote1 = new Audio("Audio/" + currentList[currentSoundNumber.number].level + ".mp3");
-    let startNote2 = new Audio("Audio/" + currentList[currentSoundNumber.number].level + ".mp3");
-    let endNote1 = new Audio("Audio/" + (currentList[currentSoundNumber.number].level + currentList[currentSoundNumber.number].sound.numberOfHalftones[0]) + ".mp3");
-    let endNote2 = new Audio("Audio/" + (currentList[currentSoundNumber.number].level + currentList[currentSoundNumber.number].sound.numberOfHalftones[0]) + ".mp3");
+    let notes = [currentList[currentSoundNumber.number].level];
+
+    let currentLevel = currentList[currentSoundNumber.number].level;
+    currentList[currentSoundNumber.number].sound.numberOfHalftones.forEach((element) => {
+        currentLevel += element;
+        notes.push(currentLevel);
+    });
 
 
-    startNote1.play();
-    setTimeout(() => {
-        endNote1.play();
+    let soundOrder = document.querySelector("#soundOrder").value;
+
+    if (soundOrder == "mel") {
+        notes.forEach((element, index) => {
+            setTimeout(() => {
+                if (audios1[element].ended) {
+                    audios1[element].play();
+                } else if (audios2[element].ended) {
+                    audios2[element].play();
+                } else {
+                    let currentSound = new Audio("Audio/" + element + ".mp3");
+                    currentSound.play();
+                }
+            }, (1000 * index));
+        });
+
+        return (1000 * notes.length + 2000);
+    } else if (soundOrder == "harm") {
+        notes.forEach(element => {
+            if (audios1[element].ended) {
+                audios1[element].play();
+            } else if (audios2[element].ended) {
+                audios2[element].play();
+            } else {
+                let currentSound = new Audio("Audio/" + element + ".mp3");
+                currentSound.play();
+            }
+        });
+
+        return 3000;
+    } else if (soundOrder == "mel-harm") {
+        notes.forEach((element, index) => {
+            setTimeout(() => {
+                if (audios1[element].ended) {
+                    audios1[element].play();
+                } else if (audios2[element].ended) {
+                    audios2[element].play();
+                } else {
+                    let currentSound = new Audio("Audio/" + element + ".mp3");
+                    currentSound.play();
+                }
+            }, (1000 * index));
+        });
+
         setTimeout(() => {
-            startNote2.play();
-            endNote2.play();
-        }, 2000)
-    }, 1000);
+            notes.forEach(element => {
+                if (audios1[element].ended) {
+                    audios1[element].play();
+                } else if (audios2[element].ended) {
+                    audios2[element].play();
+                } else {
+                    let currentSound = new Audio("Audio/" + element + ".mp3");
+                    currentSound.play();
+                }
+            });
+        }, (1000 * notes.length + 1000));
+
+        return (1000 * notes.length + 4000);
+    } else if (soundOrder == "harm-mel") {
+        notes.forEach(element => {
+            if (audios1[element].ended) {
+                audios1[element].play();
+            } else if (audios2[element].ended) {
+                audios2[element].play();
+            } else {
+                let currentSound = new Audio("Audio/" + element + ".mp3");
+                currentSound.play();
+            }
+        });
+
+        setTimeout(() => {
+            notes.forEach((element, index) => {
+                setTimeout(() => {
+                    if (audios1[element].ended) {
+                        audios1[element].play();
+                    } else if (audios2[element].ended) {
+                        audios2[element].play();
+                    } else {
+                        let currentSound = new Audio("Audio/" + element + ".mp3");
+                        currentSound.play();
+                    }
+                }, (1000 * index));
+            });
+        }, 2000);
+
+        return (notes.length * 1000 + 4000);
+    }
 }
