@@ -58,7 +58,6 @@ h1 {
     margin: 0 0 7px 0;
 }
 
-
 .settings {
     width: fit-content;
 
@@ -67,17 +66,20 @@ h1 {
     flex-wrap: wrap;
 }
 
+.soundsSettings {
+    display: flex;
+    flex-direction: column;
+}
 
 .soundsSettings>*:not(legend) {
-    margin: 10px auto;
+    margin: 0 0 3px 0;
 }
 
 .soundsTypes-list {
-    padding: 0 5px;
+    padding: 0 7px;
     margin: 0;
     list-style-type: none;
 }
-
 
 .generate {
     width: calc(100% - 6px);
@@ -147,8 +149,10 @@ h1 {
 
 .answers ol {
     margin: 0;
+    margin-left: -20px;
     text-align: left;
-    padding-inline-start: 20px;
+    padding-inline-start: 40px;
+    width: fit-content;
 }
 
 

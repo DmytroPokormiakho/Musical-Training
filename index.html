@@ -23,14 +23,21 @@
                     <ul class="soundsTypes-list">
                         <li>
                             <label for="soundsTypes-intervals">
-                                <input type="checkbox" name="soundsTypes" id="soundsTypes-intervals" value="int" checked
-                                    disabled>
+                                <input type="checkbox" name="soundsTypes" id="soundsTypes-intervals" value="int"
+                                    checked>
                                 Прості інтервали
                             </label>
                         </li>
                         <li>
+                            <label for="soundsTypes-specialAnd3tones">
+                                <input type="checkbox" name="soundsTypes" id="soundsTypes-specialAnd3tones"
+                                    value="specialAnd3tones" disabled>
+                                Характерні інтервали та тритони
+                            </label>
+                        </li>
+                        <li>
                             <label for="soundsTypes-3s">
-                                <input type="checkbox" name="soundsTypes" id="soundsTypes-3s" value="3s" disabled>
+                                <input type="checkbox" name="soundsTypes" id="soundsTypes-3s" value="3s">
                                 Тризвуки з оберненнями
                             </label>
                         </li>
@@ -79,11 +86,14 @@
                         <option value="es">&flat;</option>
                     </select>
                 </label>
+                <label for="uniqueSound" class="uniqueSound">Унікальні співзвуччя
+                    <input type="checkbox" name="uniqueSound" id="uniqueSound" checked>
+                </label>
             </fieldset>
             <fieldset class="playerSettings">
                 <legend>Налаштування відтворення</legend>
                 <label for="soundOrder">Звучання співзвуч
-                    <select name="soundOrder" id="soundOrder" disabled>
+                    <select name="soundOrder" id="soundOrder">
                         <option value="mel">Мелодичне</option>
                         <option value="harm">Гармонічне</option>
                         <option value="mel-harm" selected>Мелодичне і гармонічне</option>
