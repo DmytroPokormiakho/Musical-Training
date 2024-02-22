@@ -1,35 +1,117 @@
-document.querySelector(".generate").addEventListener("click", () => {
-    audios1[40].play();
-    audios1[44].play();
-    audios1[47].play();
-    audios1[52].play();
-    generate();
-});
+window.onload = () => {
+    restoreSettings();
 
-document.querySelector(".controls [value='previous']").addEventListener("click", () => {
-    currentSoundNumber.number--;
-});
+    window.onbeforeunload = () => {
+        saveSettings();
+    };
 
-document.querySelector(".controls [value='play']").addEventListener("click", () => {
-    document.querySelector(".controls [value='play']").setAttribute("disabled", "disabled");
-    setTimeout(() => {
-        document.querySelector(".controls [value='play']").removeAttribute("disabled");
-    }, playSound());
-});
+    setInterval(() => { saveSettings() }, 60000);
 
-document.querySelector(".controls [value='next']").addEventListener("click", () => {
-    currentSoundNumber.number++;
-});
 
-document.querySelector(".startSound-sound").addEventListener("change", () => {
-    let currentValue = document.querySelector(".startSound-sound").value;
+    document.querySelector(".generate").addEventListener("click", () => {
+        audios1[40].sound.play();
+        audios1[44].sound.play();
+        audios1[47].sound.play();
+        audios1[52].sound.play();
+        generate();
+    });
 
-    if (currentValue == "random") {
-        document.querySelector(".startSound-special").setAttribute("disabled", "disabled");
-    } else {
-        document.querySelector(".startSound-special").removeAttribute("disabled");
+    document.querySelector(".controls [value='previous']").addEventListener("click", () => {
+        currentSoundNumber.number--;
+    });
+
+    document.querySelector(".controls [value='play']").addEventListener("click", () => {
+        document.querySelector(".controls [value='play']").setAttribute("disabled", "disabled");
+        setTimeout(() => {
+            document.querySelector(".controls [value='play']").removeAttribute("disabled");
+        }, playSound());
+    });
+
+    document.querySelector(".controls [value='next']").addEventListener("click", () => {
+        currentSoundNumber.number++;
+    });
+
+    document.querySelector(".startSound-sound").addEventListener("change", () => {
+        let currentValue = document.querySelector(".startSound-sound").value;
+
+        if (currentValue == "random") {
+            document.querySelector(".startSound-special").setAttribute("disabled", "disabled");
+        } else {
+            document.querySelector(".startSound-special").removeAttribute("disabled");
+        }
+    });
+
+    document.querySelector("#numberOfSounds").onchange = () => {
+        let soundsTypesCheckboxes = document.querySelectorAll("input[type='checkbox'][name='soundsTypes']:checked");
+
+        if (document.querySelector("#numberOfSounds").value == "" || Number(document.querySelector("#numberOfSounds").value) < 2 || Number(document.querySelector("#numberOfSounds").value) > 100 || Number(document.querySelector("#numberOfSounds").value) % 1 != 0 || soundsTypesCheckboxes.length == 0) {
+            document.querySelector(".generate").setAttribute("disabled", "disabled");
+        } else {
+            document.querySelector(".generate").removeAttribute("disabled");
+        }
     }
-});
+
+    document.querySelector("#numberOfSounds").onkeyup = () => {
+        let soundsTypesCheckboxes = document.querySelectorAll("input[type='checkbox'][name='soundsTypes']:checked");
+
+        if (document.querySelector("#numberOfSounds").value == "" || Number(document.querySelector("#numberOfSounds").value) < 2 || Number(document.querySelector("#numberOfSounds").value) > 100 || Number(document.querySelector("#numberOfSounds").value) % 1 != 0 || soundsTypesCheckboxes.length == 0) {
+            document.querySelector(".generate").setAttribute("disabled", "disabled");
+        } else {
+            document.querySelector(".generate").removeAttribute("disabled");
+        }
+    }
+
+    document.querySelectorAll("input[type='checkbox'][name='soundsTypes']").forEach((element) => {
+        element.addEventListener("change", () => {
+            let soundsTypesCheckboxes = document.querySelectorAll("input[type='checkbox'][name='soundsTypes']:checked");
+
+            if (document.querySelector("#numberOfSounds").value == "" || Number(document.querySelector("#numberOfSounds").value) < 2 || Number(document.querySelector("#numberOfSounds").value) > 100 || Number(document.querySelector("#numberOfSounds").value) % 1 != 0 || soundsTypesCheckboxes.length == 0) {
+                document.querySelector(".generate").setAttribute("disabled", "disabled");
+            } else {
+                document.querySelector(".generate").removeAttribute("disabled");
+            }
+        });
+    });
+};
+
+
+
+function saveSettings() {
+    let settings = {};
+
+    document.querySelectorAll("input").forEach(element => {
+        if (element.type == "number") {
+            settings["#" + element.getAttribute("id")] = element.value;
+        } else if (element.type == "checkbox") {
+            settings["#" + element.getAttribute("id")] = element.checked;
+        }
+    });
+    document.querySelectorAll("select").forEach(element => {
+        settings["#" + element.getAttribute("id")] = element.value;
+    });
+
+    localStorage.setItem("MT-settings", JSON.stringify(settings));
+}
+
+function restoreSettings() {
+    let settings = JSON.parse(localStorage.getItem("MT-settings"));
+
+    if (settings) {
+        Object.keys(settings).forEach((element) => {
+            if (document.querySelector(element).getAttribute("type") == "checkbox") {
+                document.querySelector(element).checked = settings[element];
+            } else {
+                document.querySelector(element).value = settings[element];
+            }
+        });
+
+        if (document.querySelector("#startSound-sound").value != "random") {
+            document.querySelector("#startSound-special").removeAttribute("disabled");
+        } else {
+            document.querySelector("#startSound-special").setAttribute("disabled", "disabled");
+        }
+    }
+}
 
 
 const sounds = {
@@ -79,11 +161,23 @@ const keyboard = { octavas: ["m", "1", "2"], notes: { c: 0, d: 2, e: 4, f: 5, g:
 
 const audios1 = {};
 for (let i = 27; i <= 68; i++) {
-    audios1[i] = new Audio("Audio/" + i + ".mp3");
+    audios1[i] = { "canPlay": true, "sound": new Audio("Audio/" + i + ".mp3") };
+    audios1[i].sound.onplay = (event) => {
+        audios1[event.target.getAttribute("src").slice(6, -4)].canPlay = false;
+    };
+    audios1[i].sound.onended = (event) => {
+        audios1[event.target.getAttribute("src").slice(6, -4)].canPlay = true;
+    };
 }
 const audios2 = {};
 for (let i = 27; i <= 68; i++) {
-    audios2[i] = new Audio("Audio/" + i + ".mp3");
+    audios2[i] = { "canPlay": true, "sound": new Audio("Audio/" + i + ".mp3") };
+    audios2[i].sound.onplay = (event) => {
+        audios2[event.target.getAttribute("src").slice(6, -4)].canPlay = false;
+    };
+    audios2[i].sound.onended = (event) => {
+        audios2[event.target.getAttribute("src").slice(6, -4)].canPlay = true;
+    };
 }
 
 
@@ -195,10 +289,10 @@ function playSound() {
     if (soundOrder == "mel") {
         notes.forEach((element, index) => {
             setTimeout(() => {
-                if (audios1[element].ended) {
-                    audios1[element].play();
-                } else if (audios2[element].ended) {
-                    audios2[element].play();
+                if (audios1[element].canPlay) {
+                    audios1[element].sound.play();
+                } else if (audios2[element].canPlay) {
+                    audios2[element].sound.play();
                 } else {
                     let currentSound = new Audio("Audio/" + element + ".mp3");
                     currentSound.play();
@@ -209,10 +303,10 @@ function playSound() {
         return (1000 * notes.length + 2000);
     } else if (soundOrder == "harm") {
         notes.forEach(element => {
-            if (audios1[element].ended) {
-                audios1[element].play();
-            } else if (audios2[element].ended) {
-                audios2[element].play();
+            if (audios1[element].canPlay) {
+                audios1[element].sound.play();
+            } else if (audios2[element].canPlay) {
+                audios2[element].sound.play();
             } else {
                 let currentSound = new Audio("Audio/" + element + ".mp3");
                 currentSound.play();
@@ -223,10 +317,10 @@ function playSound() {
     } else if (soundOrder == "mel-harm") {
         notes.forEach((element, index) => {
             setTimeout(() => {
-                if (audios1[element].ended) {
-                    audios1[element].play();
-                } else if (audios2[element].ended) {
-                    audios2[element].play();
+                if (audios1[element].canPlay) {
+                    audios1[element].sound.play();
+                } else if (audios2[element].canPlay) {
+                    audios2[element].sound.play();
                 } else {
                     let currentSound = new Audio("Audio/" + element + ".mp3");
                     currentSound.play();
@@ -236,10 +330,10 @@ function playSound() {
 
         setTimeout(() => {
             notes.forEach(element => {
-                if (audios1[element].ended) {
-                    audios1[element].play();
-                } else if (audios2[element].ended) {
-                    audios2[element].play();
+                if (audios1[element].canPlay) {
+                    audios1[element].sound.play();
+                } else if (audios2[element].canPlay) {
+                    audios2[element].sound.play();
                 } else {
                     let currentSound = new Audio("Audio/" + element + ".mp3");
                     currentSound.play();
@@ -250,10 +344,10 @@ function playSound() {
         return (1000 * notes.length + 4000);
     } else if (soundOrder == "harm-mel") {
         notes.forEach(element => {
-            if (audios1[element].ended) {
-                audios1[element].play();
-            } else if (audios2[element].ended) {
-                audios2[element].play();
+            if (audios1[element].canPlay) {
+                audios1[element].sound.play();
+            } else if (audios2[element].canPlay) {
+                audios2[element].sound.play();
             } else {
                 let currentSound = new Audio("Audio/" + element + ".mp3");
                 currentSound.play();
@@ -263,10 +357,10 @@ function playSound() {
         setTimeout(() => {
             notes.forEach((element, index) => {
                 setTimeout(() => {
-                    if (audios1[element].ended) {
-                        audios1[element].play();
-                    } else if (audios2[element].ended) {
-                        audios2[element].play();
+                    if (audios1[element].canPlay) {
+                        audios1[element].sound.play();
+                    } else if (audios2[element].canPlay) {
+                        audios2[element].sound.play();
                     } else {
                         let currentSound = new Audio("Audio/" + element + ".mp3");
                         currentSound.play();
