@@ -93,6 +93,7 @@ h1 {
     min-width: 242px;
     max-width: 400px;
     margin: 10px 5px 40px 5px;
+    padding: 0 2px;
 
     display: flex;
     flex-direction: column;
